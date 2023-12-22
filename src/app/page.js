@@ -1,17 +1,14 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import NavbarComponent from "../../component/NavbarComponent";
+import Image from "next/image";
+import NavbarComponent from "../components/NavbarComponent";
 
 export default function Home() {
   return (
     <>
       <NavbarComponent />
-      <div>Home</div>
-      <Link href={"ideas"}>
-        <button className="bg-orange-400">Ideas</button>
-      </Link>
+      <Image src={"/hero.jpg"} width={100} height={100} alt="Hero" className="pt-20" />
     </>
   );
 }
