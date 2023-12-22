@@ -12,9 +12,11 @@ export default function AboutPage() {
       <div className="relative mx-auto max-w-full">
         <img src="https://suitmedia.static-assets.id/storage/files/2007/suitmedia-about-bg.jpeg" alt="Hero" className="w-full h-auto" />
         <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex flex-col justify-center items-center text-center text-white">
-          <h1 className="text-4xl font-bold mb-4">About Us</h1>
-          <p className="text-lg">Suitmedia has become our second home</p>
-          <p className="text-lg">where technology & creativity fused into digital chemistry</p>
+          <h1 className="text-4xl font-bold mb-4 hover:text-primary transition duration-300 ease-in-out">About Us</h1>
+          <div className="hover:text-primary transition duration-300 ease-in-out">
+            <p className="text-lg ">Suitmedia has become our second home</p>
+            <p className="text-lg">where technology & creativity fused into digital chemistry</p>
+          </div>
         </div>
       </div>
       <FooterComponent />

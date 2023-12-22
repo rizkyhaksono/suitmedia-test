@@ -90,8 +90,8 @@ export default function IdeasPage() {
           <img src="https://suitmedia.static-assets.id/storage/files/601/6.jpg" alt="Hero" className="w-full h-auto" />
         </div>
         <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center text-center text-white">
-          <h1 className="text-7xl font-medium mb-4">Ideas</h1>
-          <p className="text-lg">Where all our great thing begin</p>
+          <h1 className="text-7xl font-medium mb-4 hover:text-primary transition duration-300 ease-in-out">Ideas</h1>
+          <p className="text-lg hover:text-primary transition duration-300 ease-in-out">Where all our great thing begin</p>
         </div>
       </div>
       {data && data.data ? (
@@ -122,7 +122,7 @@ export default function IdeasPage() {
           </div>
         </div>
       ) : (
-        <Skeleton active className="flex justify-center h-screen mt-20 pt-20" />
+        <Skeleton active className="flex justify-center h-screen mt-20 pt-20 container mx-auto" />
       )}
 
       {selectedIdea && <CardDetail idea={selectedIdea} visible={!!selectedIdea} onClose={handleCloseDetail} />}
