@@ -20,28 +20,27 @@ export default function NavbarComponent() {
 
       setScrollingUp(prevScrollY > currentScrollY);
       prevScrollY = currentScrollY;
+
+      if (scrollingUp && !showHeader) {
+        setShowHeader(true);
+        setTimeout(() => {
+          setDropdownOpen(false);
+        }, 200);
+      } else if (!scrollingUp && showHeader) {
+        setShowHeader(false);
+      }
     };
 
-    const handleScrollEnd = () => {
-      setShowHeader(true);
-    };
-
-    const handleScrollStart = () => {
-      setShowHeader(false);
-    };
-
-    // Add event listeners
     window.addEventListener("scroll", handleScroll);
 
-    // Cleanup listeners on component unmount
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [scrollingUp, showHeader]);
 
   return (
     <>
-      <nav className={"bg-primary fixed w-full z-20 top-0 left-0 border-b"}>
+      <nav className={`bg-primary fixed w-full z-20 top-0 left-0 ${!showHeader ? "opacity-90" : ""}`}>
         <div className="max-w-screen-xl flex justify-between items-center mx-auto p-4">
           <Link href={"/"}>
             <Image src={"/suitmedia-logo2.png"} width={80} height={80} alt="Suitmedia Logo" style={{ width: "auto", height: "auto" }} />

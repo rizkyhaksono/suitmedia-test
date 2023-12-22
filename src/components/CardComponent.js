@@ -6,12 +6,16 @@ const CardComponent = ({ idea, onClick }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(false);
+    const delay = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(delay);
   }, []);
 
   return (
     <Card key={idea.id} title={idea.title} style={{ width: 300, margin: "16px" }} onClick={() => onClick(idea)}>
-      <Image alt={idea.title} src={idea.medium_image[0].url} width={500} height={500} style={{ objectFit: "cover" }} />
+      {loading ? <Skeleton active /> : <Image alt={idea.title} src={idea.medium_image[0].url} width={500} height={500} style={{ objectFit: "cover" }} />}
     </Card>
   );
 };
