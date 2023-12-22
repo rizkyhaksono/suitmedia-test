@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { Card, Skeleton } from "antd";
 import Image from "next/image";

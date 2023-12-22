@@ -38,43 +38,47 @@ export default function NavbarComponent() {
     };
   }, [scrollingUp, showHeader]);
 
+  const isLinkActive = (href) => {
+    return router.pathname === href;
+  };
+
   return (
     <>
       <nav className={`bg-primary fixed w-full z-20 top-0 left-0 ${!showHeader ? "opacity-90" : ""}`}>
         <div className="max-w-screen-xl flex justify-between items-center mx-auto p-4">
           <Link href={"/"}>
-            <Image src={"/suitmedia-logo2.png"} width={80} height={80} alt="Suitmedia Logo" style={{ width: "auto", height: "auto" }} />
+            <Image src={"/suitmedia-logo2.png"} width={80} height={80} alt="Suitmedia Logo" style={{ width: "auto", height: "auto" }} priority={true} />
           </Link>
           <div className={"flex justify-stretch w-full md:block md:w-auto"}>
             <ul className="bg-primary flex font-medium border rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 items-center">
               <li>
                 <Link href={"/work"}>
-                  <p className={`block text-white hover:text-slate-300 rounded md:p-0`}>Work</p>
+                  <p className={`block text-white hover:text-slate-300 rounded ${isLinkActive("/work") ? "text-slate-300 border-b-2 border-slate-300" : ""}`}>Work</p>
                 </Link>
               </li>
               <li>
                 <Link href={"/about"}>
-                  <p className={`block text-white hover:text-slate-300 rounded md:p-0`}>About</p>
+                  <p className={`block text-white hover:text-slate-300 rounded ${isLinkActive("/about") ? "text-slate-300 border-b-2 border-slate-300" : ""}`}>About</p>
                 </Link>
               </li>
               <li>
                 <Link href={"/services"}>
-                  <p className={`block text-white hover:text-slate-300 rounded md:p-0`}>Services</p>
+                  <p className={`block text-white hover:text-slate-300 rounded ${isLinkActive("/services") ? "text-slate-300 border-b-2 border-slate-300" : ""}`}>Services</p>
                 </Link>
               </li>
               <li>
                 <Link href={"/ideas"}>
-                  <p className={`block text-white hover:text-slate-300 rounded md:p-0`}>Ideas</p>
+                  <p className={`block text-white hover:text-slate-300 rounded ${isLinkActive("/ideas") ? "text-slate-300 border-b-2 border-slate-300" : ""}`}>Ideas</p>
                 </Link>
               </li>
               <li>
                 <Link href={"/careers"}>
-                  <p className={`block py-2 pl-3 pr-4 text-white hover:text-slate-300 rounded md:p-0`}>Careers</p>
+                  <p className={`block text-white hover:text-slate-300 rounded ${isLinkActive("/careers") ? "text-slate-300 border-b-2 border-slate-300" : ""}`}>Careers</p>
                 </Link>
               </li>
               <li>
                 <Link href={"/contact"}>
-                  <p className={`block py-2 pl-3 pr-4 text-white hover:text-slate-300 rounded md:p-0`}>Contact</p>
+                  <p className={`block text-white hover:text-slate-300 rounded ${isLinkActive("/contact") ? "text-black border-b-2 border-slate-300" : ""}`}>Contact</p>
                 </Link>
               </li>
             </ul>
