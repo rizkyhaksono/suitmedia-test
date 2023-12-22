@@ -9,6 +9,7 @@ import FooterComponent from "@/components/FooterComponent";
 import CardComponent from "../../components/CardComponent";
 import CardDetail from "../../components/CardDetail";
 import fetchData from "@/utils/fetchData";
+import "./page.css";
 const { Option } = Select;
 
 export default function IdeasPage() {
@@ -85,26 +86,32 @@ export default function IdeasPage() {
     <>
       <NavbarComponent />
       <div className="relative mx-auto max-w-full">
-        <img src="https://suitmedia.static-assets.id/storage/files/601/6.jpg" alt="Hero" className="w-full h-auto" />
-        <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex flex-col justify-center items-center text-center text-white">
-          <h1 className="text-4xl font-bold mb-4">Ideas</h1>
+        <div className="image-container relative">
+          <img src="https://suitmedia.static-assets.id/storage/files/601/6.jpg" alt="Hero" className="w-full h-auto" />
+        </div>
+        <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center text-center text-white">
+          <h1 className="text-7xl font-medium mb-4">Ideas</h1>
           <p className="text-lg">Where all our great thing begin</p>
         </div>
       </div>
       {data && data.data ? (
         <div className="container mx-auto my-20">
-          <div className="mx-32 gap-3 flex justify-end">
-            <p className="text-base mt-1.5">Show per page:</p>
-            <Select value={sortKey} onChange={handleSortChange} style={{ width: 120, marginBottom: 16 }}>
-              <Option value="default">Default</Option>
-              <Option value="title">Title</Option>
-            </Select>
-            <p className="text-base mt-1.5">Sort by:</p>
-            <Select value={sortKey} onChange={handleSortChange} style={{ width: 120, marginBottom: 16 }}>
-              <Option value="default">Default</Option>
-              <Option value="title">Title</Option>
-            </Select>
+          <div className="mx-32 flex justify-between">
+            <div className="font-semibold">{`Showing ${data.meta.from} - ${data.meta.to} of ${data.meta.total}`}</div>
+            <div className="gap-3 flex">
+              <p className="text-base font-semibold">Show per page:</p>
+              <Select value={sortKey} onChange={handleSortChange} style={{ width: 120, marginBottom: 16 }}>
+                <Option value="default">Default</Option>
+                <Option value="title">Title</Option>
+              </Select>
+              <p className="text-base font-semibold">Sort by:</p>
+              <Select value={sortKey} onChange={handleSortChange} style={{ width: 120, marginBottom: 16 }}>
+                <Option value="default">Default</Option>
+                <Option value="title">Title</Option>
+              </Select>
+            </div>
           </div>
+
           <div className="flex flex-wrap justify-center">
             {sortedData.map((idea) => (
               <CardComponent key={idea.id} idea={idea} onClick={handleCardClick} />

@@ -1,0 +1,10 @@
+.image-container {
+  overflow: hidden;
+  position: relative;
+  height: 800px;
+}
+
+.image-container img {
+  position: absolute;
+  clip-path: polygon(0 0, 100% 0, 100% 50%, 0 78%);
+}
