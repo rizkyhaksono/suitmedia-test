@@ -1,7 +1,13 @@
-import React from "react";
-import { Modal, Button } from "antd";
+import { useEffect, useState } from "react";
+import { Modal, Button, Skeleton } from "antd";
 
 const CardDetail = ({ idea, visible, onClose }) => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(false);
+  }, [visible]);
+
   return (
     <Modal
       title={idea.title}
@@ -13,7 +19,7 @@ const CardDetail = ({ idea, visible, onClose }) => {
         </Button>,
       ]}
     >
-      <div dangerouslySetInnerHTML={{ __html: idea.content }} />
+      {loading ? <Skeleton active /> : <div dangerouslySetInnerHTML={{ __html: idea.content }} />}
     </Modal>
   );
 };

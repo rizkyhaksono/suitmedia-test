@@ -62,11 +62,7 @@ export default function IdeasPage() {
   return (
     <>
       <NavbarComponent />
-      {loading ? (
-        <div className="container mx-auto my-20">
-          <Skeleton active />
-        </div>
-      ) : data && data.data ? (
+      {data && data.data ? (
         <div className="container mx-auto my-20">
           <div style={{ display: "flex", flexWrap: "wrap" }}>
             {data.data.map((idea) => (
@@ -76,15 +72,7 @@ export default function IdeasPage() {
           <Pagination className="mt-5" current={currentPage} total={data.meta.last_page * 10} pageSize={10} onChange={handlePageChange} />
         </div>
       ) : (
-        <Result
-          status="warning"
-          title="There are some problems with your operation."
-          extra={
-            <Button type="text" key="console">
-              Go Console
-            </Button>
-          }
-        />
+        <Skeleton active className="flex justify-center h-screen mt-20 pt-20" />
       )}
 
       {selectedIdea && <CardDetail idea={selectedIdea} visible={!!selectedIdea} onClose={handleCloseDetail} />}
