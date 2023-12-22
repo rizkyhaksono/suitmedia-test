@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <>
       <NavbarComponent />
-      <Image src={"/hero.jpg"} width={100} height={100} alt="Hero" className="pt-20" />
+      <Image src={"/hero.jpg"} width={100} height={100} alt="Hero" className="min-w-full" />
     </>
   );
 }

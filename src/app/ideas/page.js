@@ -63,17 +63,17 @@ export default function IdeasPage() {
     <>
       <NavbarComponent />
       {loading ? (
-        <div className="container mx-auto">
+        <div className="container mx-auto my-20">
           <Skeleton active />
         </div>
       ) : data && data.data ? (
-        <div className="container mx-auto">
+        <div className="container mx-auto my-20">
           <div style={{ display: "flex", flexWrap: "wrap" }}>
             {data.data.map((idea) => (
               <CardComponent key={idea.id} idea={idea} onClick={handleCardClick} />
             ))}
           </div>
-          <Pagination current={currentPage} total={data.meta.last_page * 10} pageSize={10} onChange={handlePageChange} />
+          <Pagination className="mt-5" current={currentPage} total={data.meta.last_page * 10} pageSize={10} onChange={handlePageChange} />
         </div>
       ) : (
         <Result
