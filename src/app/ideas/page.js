@@ -19,18 +19,27 @@ export default function IdeasPage() {
   const [selectedIdea, setSelectedIdea] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(() => {
-    const storedPage = localStorage.getItem("currentPage");
-    return storedPage ? parseInt(storedPage, 10) : 1;
+    if (typeof window !== "undefined") {
+      const storedPage = localStorage.getItem("currentPage");
+      return storedPage ? parseInt(storedPage, 10) : 1;
+    }
+    return 1;
   });
 
   const [sortKey, setSortKey] = useState(() => {
-    const storedSortKey = localStorage.getItem("sortKey");
-    return storedSortKey || "default";
+    if (typeof window !== "undefined") {
+      const storedSortKey = localStorage.getItem("sortKey");
+      return storedSortKey || "default";
+    }
+    return "default";
   });
 
   const [itemsPerPage, setItemsPerPage] = useState(() => {
-    const storedItemsPerPage = localStorage.getItem("itemsPerPage");
-    return storedItemsPerPage ? parseInt(storedItemsPerPage, 10) : 10;
+    if (typeof window !== "undefined") {
+      const storedItemsPerPage = localStorage.getItem("itemsPerPage");
+      return storedItemsPerPage ? parseInt(storedItemsPerPage, 10) : 10;
+    }
+    return 10;
   });
 
   useEffect(() => {
@@ -65,11 +74,16 @@ export default function IdeasPage() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      localStorage.setItem("currentPage", currentPage);
-      localStorage.setItem("sortKey", sortKey);
-      localStorage.setItem("itemsPerPage", itemsPerPage);
+      const storedPage = localStorage.getItem("currentPage");
+      setCurrentPage(storedPage ? parseInt(storedPage, 10) : 1);
+
+      const storedSortKey = localStorage.getItem("sortKey");
+      setSortKey(storedSortKey || "default");
+
+      const storedItemsPerPage = localStorage.getItem("itemsPerPage");
+      setItemsPerPage(storedItemsPerPage ? parseInt(storedItemsPerPage, 10) : 10);
     }
-  }, [currentPage, sortKey, itemsPerPage]);
+  }, []);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
