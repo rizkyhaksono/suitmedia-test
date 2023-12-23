@@ -1,5 +1,4 @@
-const fetchData = async (pageNumber = 1) => {
-  const pageSize = 10;
+const fetchData = async ({ pageNumber = 1, pageSize }) => {
   const url = `https://suitmedia-backend.suitdev.com/api/ideas?page[number]=${pageNumber}&page[size]=${pageSize}&append[]=small_image&append[]=medium_image&sort=-published_at`;
 
   try {

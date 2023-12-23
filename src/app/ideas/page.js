@@ -15,15 +15,28 @@ const { Option } = Select;
 export default function IdeasPage() {
   const router = useRouter();
   const [data, setData] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [selectedIdea, setSelectedIdea] = useState(null);
-  const [sortKey, setSortKey] = useState("default");
+
+  const [currentPage, setCurrentPage] = useState(() => {
+    const storedPage = localStorage.getItem("currentPage");
+    return storedPage ? parseInt(storedPage, 10) : 1;
+  });
+
+  const [sortKey, setSortKey] = useState(() => {
+    const storedSortKey = localStorage.getItem("sortKey");
+    return storedSortKey || "default";
+  });
+
+  const [itemsPerPage, setItemsPerPage] = useState(() => {
+    const storedItemsPerPage = localStorage.getItem("itemsPerPage");
+    return storedItemsPerPage ? parseInt(storedItemsPerPage, 10) : 10;
+  });
 
   useEffect(() => {
     const fetchDataAsync = async () => {
       try {
-        const result = await fetchData(currentPage);
+        const result = await fetchData({ pageNumber: currentPage, pageSize: itemsPerPage });
         console.log(result);
         setData(result);
       } catch (error) {
@@ -32,9 +45,8 @@ export default function IdeasPage() {
         setLoading(false);
       }
     };
-
     fetchDataAsync();
-  }, [currentPage]);
+  }, [currentPage, itemsPerPage]);
 
   useEffect(() => {
     if (typeof router.pathname === "string") {
@@ -50,6 +62,14 @@ export default function IdeasPage() {
     const newPage = pageQueryParam ? parseInt(pageQueryParam, 10) : 1;
     setCurrentPage(newPage);
   }, [router.query]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("currentPage", currentPage);
+      localStorage.setItem("sortKey", sortKey);
+      localStorage.setItem("itemsPerPage", itemsPerPage);
+    }
+  }, [currentPage, sortKey, itemsPerPage]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -73,14 +93,21 @@ export default function IdeasPage() {
     }
 
     switch (sortKey) {
-      case "title":
-        return [...data.data].sort((a, b) => a.title.localeCompare(b.title));
+      case "latest":
+        return [...data.data].sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
+      case "oldest":
+        return [...data.data].sort((a, b) => new Date(a.published_at) - new Date(b.published_at));
       default:
         return data.data;
     }
   };
 
   const sortedData = getSortedData();
+
+  const handleItemsPerPageChange = (value) => {
+    setItemsPerPage(value);
+    setCurrentPage(1);
+  };
 
   return (
     <>
@@ -100,14 +127,16 @@ export default function IdeasPage() {
             <div className="font-semibold">{`Showing ${data.meta.from} - ${data.meta.to} of ${data.meta.total}`}</div>
             <div className="gap-3 flex">
               <p className="text-base font-semibold">Show per page:</p>
-              <Select value={sortKey} onChange={handleSortChange} style={{ width: 120, marginBottom: 16 }}>
-                <Option value="default">Default</Option>
-                <Option value="title">Title</Option>
+              <Select value={itemsPerPage} onChange={handleItemsPerPageChange} style={{ width: 120, marginBottom: 16 }}>
+                <Option value={10}>10</Option>
+                <Option value={20}>20</Option>
+                <Option value={50}>50</Option>
               </Select>
               <p className="text-base font-semibold">Sort by:</p>
               <Select value={sortKey} onChange={handleSortChange} style={{ width: 120, marginBottom: 16 }}>
                 <Option value="default">Default</Option>
-                <Option value="title">Title</Option>
+                <Option value="latest">Latest</Option>
+                <Option value="oldest">Oldest</Option>
               </Select>
             </div>
           </div>
@@ -118,7 +147,7 @@ export default function IdeasPage() {
             ))}
           </div>
           <div className="flex justify-center mt-5">
-            <Pagination current={currentPage} total={data.meta.last_page * 10} pageSize={10} onChange={handlePageChange} />
+            <Pagination current={currentPage} total={data.meta.total} pageSize={10} onChange={handlePageChange} showSizeChanger={false} />
           </div>
         </div>
       ) : (
