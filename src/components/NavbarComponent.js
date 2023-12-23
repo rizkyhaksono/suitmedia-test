@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export default function NavbarComponent() {
+const NavbarComponent = () => {
   const [scrollingUp, setScrollingUp] = useState(true);
   const [showHeader, setShowHeader] = useState(true);
   const [isMobileView, setIsMobileView] = useState(false);
@@ -38,53 +38,47 @@ export default function NavbarComponent() {
     };
   }, [scrollingUp, showHeader]);
 
-  const isLinkActive = (href) => {
-    return router.pathname === href;
-  };
+  const isLinkActive = (href) => router.pathname === href;
 
   return (
-    <>
-      <nav className={`bg-primary fixed w-full z-20 top-0 left-0 ${!showHeader ? "opacity-90" : ""}`}>
-        <div className="max-w-screen-xl flex justify-between items-center mx-auto p-4">
-          <Link href={"/"}>
-            <Image src={"/suitmedia-logo2.png"} width={80} height={80} alt="Suitmedia Logo" style={{ width: "auto", height: "auto" }} priority={true} />
-          </Link>
-          <div className={"flex justify-stretch w-full md:block md:w-auto"}>
-            <ul className="bg-primary flex font-medium border rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 items-center">
-              <li>
-                <Link href={"/work"}>
-                  <p className={`block text-white hover:text-slate-300 rounded ${isLinkActive("/work") ? "text-slate-300 border-b-2 border-slate-300" : ""}`}>Work</p>
-                </Link>
-              </li>
-              <li>
-                <Link href={"/about"}>
-                  <p className={`block text-white hover:text-slate-300 rounded ${isLinkActive("/about") ? "text-slate-300 border-b-2 border-slate-300" : ""}`}>About</p>
-                </Link>
-              </li>
-              <li>
-                <Link href={"/services"}>
-                  <p className={`block text-white hover:text-slate-300 rounded ${isLinkActive("/services") ? "text-slate-300 border-b-2 border-slate-300" : ""}`}>Services</p>
-                </Link>
-              </li>
-              <li>
-                <Link href={"/ideas"}>
-                  <p className={`block text-white hover:text-slate-300 rounded ${isLinkActive("/ideas") ? "text-slate-300 border-b-2 border-slate-300" : ""}`}>Ideas</p>
-                </Link>
-              </li>
-              <li>
-                <Link href={"/careers"}>
-                  <p className={`block text-white hover:text-slate-300 rounded ${isLinkActive("/careers") ? "text-slate-300 border-b-2 border-slate-300" : ""}`}>Careers</p>
-                </Link>
-              </li>
-              <li>
-                <Link href={"/contact"}>
-                  <p className={`block text-white hover:text-slate-300 rounded ${isLinkActive("/contact") ? "text-black border-b-2 border-slate-300" : ""}`}>Contact</p>
-                </Link>
-              </li>
-            </ul>
-          </div>
+    <nav className={`bg-primary fixed w-full z-20 top-0 left-0 ${!showHeader ? "opacity-70" : ""}`}>
+      <div className="max-w-screen-xl flex justify-between items-center mx-auto p-4">
+        <Link href={"/"}>
+          <Image src={"/suitmedia-logo2.png"} width={80} height={80} alt="Suitmedia Logo" style={{ width: "auto", height: "auto" }} priority={true} />
+        </Link>
+        <div className={"flex justify-stretch w-full md:block md:w-auto"}>
+          <ul className="bg-primary flex font-medium border rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 items-center">
+            {navItems.map((item) => (
+              <NavItem key={item.href} href={item.href} label={item.label} />
+            ))}
+          </ul>
         </div>
-      </nav>
-    </>
+      </div>
+    </nav>
   );
-}
+};
+
+const NavItem = ({ href, label }) => {
+  const router = useRouter();
+  const isCurrent = router.pathname === href;
+
+  return (
+    <li>
+      <Link href={href}>
+        <p className={`block text-white hover:text-slate-300 rounded ${isCurrent ? "text-slate-300 border-b-2 border-slate-300" : ""}`}>{label}</p>
+      </Link>
+      {isCurrent && <div className="w-full h-[4px] mt-3 bg-white rounded-full"></div>}
+    </li>
+  );
+};
+
+const navItems = [
+  { href: "/work", label: "Work" },
+  { href: "/about", label: "About" },
+  { href: "/services", label: "Services" },
+  { href: "/ideas", label: "Ideas" },
+  { href: "/careers", label: "Careers" },
+  { href: "/contact", label: "Contact" },
+];
+
+export default NavbarComponent;

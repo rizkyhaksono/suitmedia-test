@@ -28,7 +28,7 @@ const CardComponent = ({ idea, onClick }) => {
       ) : (
         <>
           <img alt={idea.title} src={idea.medium_image[0].url} style={{ objectFit: "cover", width: "100%", height: "200px", borderRadius: "10px" }} />
-          <p className="font-normal text-lg mt-5">{formatPublishedDate(idea.published_at)}</p>
+          <p className="font-medium text-lg mt-5">{formatPublishedDate(idea.published_at)}</p>
           <p className="font-bold text-2xl title">{idea.title}</p>
         </>
       )}
