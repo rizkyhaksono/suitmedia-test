@@ -85,6 +85,14 @@ export default function IdeasPage() {
     }
   }, []);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("currentPage", currentPage.toString());
+      localStorage.setItem("sortKey", sortKey);
+      localStorage.setItem("itemsPerPage", itemsPerPage.toString());
+    }
+  }, [currentPage, sortKey, itemsPerPage]);
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
